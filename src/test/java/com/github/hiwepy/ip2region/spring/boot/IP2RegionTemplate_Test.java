@@ -14,7 +14,7 @@ public class IP2RegionTemplate_Test {
 
 	@Before
 	public void setUp()  throws Exception {
-		String dbPath = "D:\\data\\ip2region.xdb";
+		String dbPath = "D:\\ip2region.xdb";
 		ResourceLoader resourceLoader = new FileSystemResourceLoader();
 		XdbSearcher xdbSearcher = new XdbSearcher(resourceLoader, dbPath);
 		template = new IP2regionTemplate(xdbSearcher);
