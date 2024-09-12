@@ -4,6 +4,7 @@ import com.github.hiwepy.ip2region.spring.boot.util.Util;
 import lombok.extern.slf4j.Slf4j;
 import org.lionsoul.ip2region.xdb.Searcher;
 import org.springframework.beans.factory.DisposableBean;
+import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.FileCopyUtils;
@@ -19,18 +20,19 @@ import java.util.concurrent.TimeUnit;
  * https://github.com/lionsoul2014/ip2region/tree/master/binding/java
  */
 @Slf4j
-public class XdbSearcher implements DisposableBean {
+public class XdbSearcher implements ResourceLoaderAware, DisposableBean {
 
     public static final String NOT_MATCH = "0|0|0|内网IP|内网IP";
     public static final RegionAddress NOT_MATCH_REGION_ADDRESS = new RegionAddress(NOT_MATCH.split("\\|"));
     public static final String DEFAULT_LOCATION = "classpath:ip2region/ip2region.xdb";
-
+    protected ResourceLoader resourceLoader;
     protected byte[] vIndex;
     protected byte[] xdbBuff;
     protected Searcher searcher = null;
-    protected final ResourceLoader resourceLoader;
+
     public XdbSearcher(ResourceLoader resourceLoader) throws IOException {
-        this(resourceLoader, DEFAULT_LOCATION);
+        this.resourceLoader = resourceLoader;
+        this.searcher = this.loadWithBuffer(DEFAULT_LOCATION);
     }
 
     public XdbSearcher(ResourceLoader resourceLoader, String location) throws IOException {
@@ -43,10 +45,10 @@ public class XdbSearcher implements DisposableBean {
      * 1、创建 searcher 对象
      * 2、加载数据
      * 3、关闭 searcher 对象
-     * @param location xdb 文件路径
-     * @return Searcher 对象
+     * @param location
+     * @throws IOException
      */
-    public synchronized Searcher loadWithBuffer(String location) {
+    public synchronized Searcher loadWithBuffer(String location) throws IOException {
         // 1、从 dbPath 加载整个 xdb 到内存。
         if (Objects.isNull(xdbBuff)) {
             try {
@@ -80,9 +82,8 @@ public class XdbSearcher implements DisposableBean {
     /**
      * get the region with a int ip address with memory binary search algorithm
      *
-     * @param   ip ip address with int
-     * @throws IOException  IO异常
-     * @return  DataBlock object
+     * @param   ip
+     * @throws IOException
      */
     public String memorySearch(long ip) throws IOException {
         if(Objects.isNull(xdbBuff) || Objects.isNull(searcher)){
@@ -102,12 +103,17 @@ public class XdbSearcher implements DisposableBean {
     /**
      * get the region throught the ip address with memory binary search algorithm
      *
-     * @param   ip ip address
-     * @return  DataBlock object
-     * @throws  IOException IO异常
+     * @param   ip
+     * @return  DataBlock
+     * @throws  IOException
      */
     public String memorySearch(String ip) throws IOException {
         return memorySearch(Util.ip2long(ip));
+    }
+
+    @Override
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
     }
 
     @Override
