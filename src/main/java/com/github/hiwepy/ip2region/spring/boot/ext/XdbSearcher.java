@@ -43,10 +43,10 @@ public class XdbSearcher implements DisposableBean {
      * 1、创建 searcher 对象
      * 2、加载数据
      * 3、关闭 searcher 对象
-     * @param location
-     * @throws IOException
+     * @param location xdb 文件路径
+     * @return Searcher 对象
      */
-    public synchronized Searcher loadWithBuffer(String location) throws IOException {
+    public synchronized Searcher loadWithBuffer(String location) {
         // 1、从 dbPath 加载整个 xdb 到内存。
         if (Objects.isNull(xdbBuff)) {
             try {
@@ -80,8 +80,9 @@ public class XdbSearcher implements DisposableBean {
     /**
      * get the region with a int ip address with memory binary search algorithm
      *
-     * @param   ip
-     * @throws IOException
+     * @param   ip ip address with int
+     * @throws IOException  IO异常
+     * @return  DataBlock object
      */
     public String memorySearch(long ip) throws IOException {
         if(Objects.isNull(xdbBuff) || Objects.isNull(searcher)){
@@ -101,9 +102,9 @@ public class XdbSearcher implements DisposableBean {
     /**
      * get the region throught the ip address with memory binary search algorithm
      *
-     * @param   ip
-     * @return  DataBlock
-     * @throws  IOException
+     * @param   ip ip address
+     * @return  DataBlock object
+     * @throws  IOException IO异常
      */
     public String memorySearch(String ip) throws IOException {
         return memorySearch(Util.ip2long(ip));

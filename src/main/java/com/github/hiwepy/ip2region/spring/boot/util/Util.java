@@ -3,18 +3,17 @@ package com.github.hiwepy.ip2region.spring.boot.util;
 
 /**
  * util class
- *
- * @author chenxin<chenxin619315@gmail.com>
+ * @author chenxin
  */
 public class Util
 {
     /**
      * write specfield bytes to a byte array start from offset
      *
-     * @param    b
-     * @param    offset
-     * @param    v
-     * @param    bytes
+     * @param    b   byte array
+     * @param    offset start position
+     * @param    v    value
+     * @param    bytes bytes
      */
     public static void write( byte[] b, int offset, long v, int bytes)
     {
@@ -26,9 +25,9 @@ public class Util
     /**
      * write a int to a byte array
      *
-     * @param    b
-     * @param    offet
-     * @param    v
+     * @param    b       byte array
+     * @param    offset  start position
+     * @param    v     int
      */
     public static void writeIntLong( byte[] b, int offset, long v )
     {
@@ -41,8 +40,9 @@ public class Util
     /**
      * get a int from a byte array start from the specifiled offset
      *
-     * @param    b
-     * @param    offset
+     * @param    b     byte array
+     * @param    offset   start position
+     * @return    int value
      */
     public static long getIntLong( byte[] b, int offset )
     {
@@ -57,8 +57,9 @@ public class Util
     /**
      * get a int from a byte array start from the specifield offset
      *
-     * @param    b
-     * @param    offset
+     * @param    b    byte array
+     * @param    offset start position
+     * @return    int value
      */
     public static int getInt3( byte[] b, int offset )
     {
@@ -87,7 +88,7 @@ public class Util
     /**
      * string ip to long ip
      *
-     * @param    ip
+     * @param    ip   string ip
      * @return    long
      */
     public static long ip2long( String ip )
@@ -124,7 +125,7 @@ public class Util
     /**
      * check the validate of the specifeld ip address
      *
-     * @param    ip
+     * @param    ip   ip address
      * @return    boolean
      */
     public static boolean isIpAddress( String ip )
