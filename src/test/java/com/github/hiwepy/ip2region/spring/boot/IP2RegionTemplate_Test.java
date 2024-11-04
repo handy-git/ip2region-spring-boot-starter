@@ -3,8 +3,8 @@ package com.github.hiwepy.ip2region.spring.boot;
 import com.github.hiwepy.ip2region.spring.boot.ext.RegionAddress;
 import com.github.hiwepy.ip2region.spring.boot.ext.RegionEnum;
 import com.github.hiwepy.ip2region.spring.boot.ext.XdbSearcher;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 
@@ -12,7 +12,7 @@ public class IP2RegionTemplate_Test {
 
 	IP2regionTemplate template = null;
 
-	@Before
+	@BeforeEach
 	public void setUp()  throws Exception {
 		String dbPath = "D:\\ip2region.xdb";
 		ResourceLoader resourceLoader = new FileSystemResourceLoader();
