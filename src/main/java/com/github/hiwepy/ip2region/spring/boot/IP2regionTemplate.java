@@ -75,7 +75,7 @@ public class IP2regionTemplate implements DisposableBean {
 			rwl.readLock().lock();
 			String region = xdbSearcher.memorySearch(ip);
 			String[] regionArr = region.split("\\|");
-			log.info(" IP : {} >> Country : {} ", ip, regionArr[0]);
+			log.debug(" IP : {} >> Country : {} ", ip, regionArr[0]);
 			if(XdbSearcher.NOT_MATCH.contains(regionArr[0])){
 				return RegionEnum.UK;
 			}
@@ -94,7 +94,7 @@ public class IP2regionTemplate implements DisposableBean {
 			rwl.readLock().lock();
 			String region = xdbSearcher.memorySearch(ip);
 			String country = region.split("\\|")[0];
-			log.info(" IP : {} >> Country/Region : {} ", ip, country);
+			log.debug(" IP : {} >> Country/Region : {} ", ip, country);
 			return XdbSearcher.NOT_MATCH.contains(country) ? RegionEnum.UK.getCname() : country;
 		} catch (Exception e) {
 			log.error(" IP : {} >> Country/Region Parser Error：{}", ip, e.getMessage());
